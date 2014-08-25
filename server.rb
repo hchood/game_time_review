@@ -37,6 +37,27 @@ games = [
 #         METHODS
 #############################
 
+def add_to_records(records, team)
+  if !records[team]
+    records[team] = { wins: 0, losses: 0 }
+  end
+end
+
+def update_scores(records, game)
+  home_team = game[:home_team]
+  away_team = game[:away_team]
+
+  if game[:home_score] > game[:away_score]
+    # increment home team's wins & away team's losses
+    records[home_team][:wins] += 1
+    records[away_team][:losses] += 1
+  elsif game[:home_score] < game[:away_score]
+    # increment home team's losses & away team's wins
+    records[home_team][:losses] += 1
+    records[away_team][:wins] += 1
+  end
+end
+
 def team_records(game_data)
   records = {}
 
@@ -47,25 +68,11 @@ def team_records(game_data)
     home_team = game[:home_team]
     away_team = game[:away_team]
 
-    if !records[home_team]
-      records[home_team] = { wins: 0, losses: 0 }
-    end
-
-    if !records[away_team]
-      records[away_team] = { wins: 0, losses: 0 }
-    end
+    add_to_records(records, home_team)
+    add_to_records(records, away_team)
 
     # update the number of wins & losses for each team
-
-    if game[:home_score] > game[:away_score]
-      # increment home team's wins & away team's losses
-      records[home_team][:wins] += 1
-      records[away_team][:losses] += 1
-    elsif game[:home_score] < game[:away_score]
-      # increment home team's losses & away team's wins
-      records[home_team][:losses] += 1
-      records[away_team][:wins] += 1
-    end
+    update_scores(records, game)
   end
 
   records
