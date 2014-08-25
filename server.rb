@@ -78,13 +78,18 @@ def team_records(game_data)
   records
 end
 
+def sorted_team_records(game_data)
+  team_records = team_records(game_data)
+  team_records.sort_by { |team, record| [-record[:wins], record[:losses]] }
+end
+
 
 #############################
 #         ROUTES
 #############################
 
 get '/leaderboard' do
-  @team_records = team_records(games)
+  @team_records = sorted_team_records(games)
 
   erb :leaderboard
 end
