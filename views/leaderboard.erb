@@ -1,0 +1,7 @@
+<h2>Welcome to the NFL!</h2>
+
+<ul>
+  <% @team_records.each do |team, record| %>
+    <li><%= "Team: #{team}, wins: #{record[:wins]}, losses: #{record[:losses]}" %></li>
+  <% end %>
+</ul>
